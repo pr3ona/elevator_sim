@@ -30,6 +30,12 @@ int main(void)
 	ALLEGRO_BITMAP *ButDown3 = NULL;
 	ALLEGRO_BITMAP *ButDown4 = NULL;
 
+	ALLEGRO_BITMAP *Plate = NULL;
+	ALLEGRO_BITMAP *Open = NULL;
+	ALLEGRO_BITMAP *Close = NULL;
+	ALLEGRO_BITMAP *Alarm = NULL;
+
+
 
 
 
@@ -52,7 +58,26 @@ int main(void)
 	al_install_keyboard();
 	al_init_image_addon();
 
-	But1 = al_load_bitmap("ElevatorButton1.jpg");
+	But1 = al_load_bitmap("ElevatorButton1.png");
+	But2 = al_load_bitmap("ElevatorButton2.png");
+	But3 = al_load_bitmap("ElevatorButton3.png");
+	But4 = al_load_bitmap("ElevatorButton4.png");
+
+	ButUp1 = al_load_bitmap("ElevatorButtonUp.png");
+	ButUp2 = al_load_bitmap("ElevatorButtonUp.png");
+	ButUp3 = al_load_bitmap("ElevatorButtonUp.png");
+	ButUp4 = al_load_bitmap("ElevatorButtonUp.png");
+
+	ButDown1 = al_load_bitmap("ElevatorButtonDown.png");
+	ButDown2 = al_load_bitmap("ElevatorButtonDown.png");
+	ButDown3 = al_load_bitmap("ElevatorButtonDown.png");
+	ButDown4 = al_load_bitmap("ElevatorButtonDown.png");
+
+	Plate = al_load_bitmap("MetalPlate.png");
+	Open = al_load_bitmap("ElevatorButtonOpen.png");
+	Close = al_load_bitmap("ElevatorButtonClose.png");
+	Alarm = al_load_bitmap("ElevatorButtonA.png");
+
 
 	event_queue = al_create_event_queue();
 
@@ -62,8 +87,25 @@ int main(void)
 	al_hide_mouse_cursor(display);
 	while (!done)
 	{
+		al_draw_bitmap(Plate, 600, 0,0);
 
-		al_draw_bitmap(But1,10,10,0);
+		al_draw_bitmap(But1,610,75,0);
+		al_draw_bitmap(But2, 750, 75, 0);
+
+		al_draw_bitmap(But3, 610, 140, 0);
+		al_draw_bitmap(But4, 750, 140, 0);
+
+
+		al_draw_bitmap(Open, 610, 205, 0);
+		al_draw_bitmap(Close, 750, 205, 0);
+
+		al_draw_bitmap(Alarm, 680, 270, 0);
+		/*al_draw_bitmap(But1, 10, 10, 0);
+		al_draw_bitmap(But1, 10, 10, 0);
+		al_draw_bitmap(But1, 10, 10, 0);
+		al_draw_bitmap(But1, 10, 10, 0);
+		al_draw_bitmap(But1, 10, 10, 0);
+		al_draw_bitmap(But1, 10, 10, 0);*/
 
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(event_queue, &ev);
@@ -91,6 +133,21 @@ int main(void)
 		al_clear_to_color(al_map_rgb(0, 0, 0));
 	}
 	al_destroy_bitmap(But1);
+	al_destroy_bitmap(But2);
+	al_destroy_bitmap(But3);
+	al_destroy_bitmap(But4);
+	al_destroy_bitmap(ButUp1);
+	al_destroy_bitmap(ButUp2);
+	al_destroy_bitmap(ButUp3);
+	al_destroy_bitmap(ButUp4);
+	al_destroy_bitmap(ButDown1);
+	al_destroy_bitmap(ButDown2);
+	al_destroy_bitmap(ButDown3);
+	al_destroy_bitmap(ButDown4);
+	al_destroy_bitmap(Open);
+	al_destroy_bitmap(Close);
+	al_destroy_bitmap(Alarm);
+
 	al_destroy_event_queue(event_queue);
 	al_destroy_display(display);						//destroy our display object
 
