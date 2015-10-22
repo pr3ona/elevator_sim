@@ -148,8 +148,52 @@ int main(void)
 		}
 		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
-			if (ev.mouse.button & 1 && pos_x>630 && pos_x<685 && pos_y >90 && pos_y < 140)
-				done = true;
+			if (ev.mouse.button & 1 && pos_x>630 && pos_x<720 && pos_y >90 && pos_y < 140)
+				done = true;// but1
+
+			else if (ev.mouse.button & 1 && pos_x>770 && pos_x<860 && pos_y>90 && pos_y<140)
+				done = true;// but2
+
+			else if (ev.mouse.button & 1 && pos_x>630 && pos_x<720 && pos_y >160 && pos_y < 210)
+				done = true;// but3
+
+			else if (ev.mouse.button & 1 && pos_x>770 && pos_x<860 && pos_y>160 && pos_y<210)
+				done = true;// but4
+
+			else if (ev.mouse.button & 1 && pos_x>630 && pos_x<720 && pos_y >230 && pos_y < 280)
+				done = true;// open
+
+			else if (ev.mouse.button & 1 && pos_x>770 && pos_x<860 && pos_y>230&& pos_y<280)
+				done = true;// close
+
+			else if (ev.mouse.button & 1 && pos_x>700 && pos_x<800 && pos_y> 295 && pos_y<345)
+				done = true;// Alarm
+
+			else if (ev.mouse.button & 1 && pos_x>20 && pos_x<125 && pos_y> 470 && pos_y<515)
+				done = true;// up1
+
+			else if (ev.mouse.button & 1 && pos_x>20 && pos_x<125 && pos_y> 530 && pos_y<575)
+				done = true;// down1
+
+			else if (ev.mouse.button & 1 && pos_x>20 && pos_x<125 && pos_y> 320 && pos_y<365)
+				done = true;// up2
+
+			else if (ev.mouse.button & 1 && pos_x>20 && pos_x<125 && pos_y> 380 && pos_y<425)
+				done = true;// down2
+
+			else if (ev.mouse.button & 1 && pos_x>20 && pos_x<125 && pos_y> 160 && pos_y<205)
+				done = true;// up3
+
+			else if (ev.mouse.button & 1 && pos_x>20 && pos_x<125 && pos_y> 220 && pos_y<265)
+				done = true;// down3
+
+			else if (ev.mouse.button & 1 && pos_x>20 && pos_x<125 && pos_y> 25 && pos_y<70)
+				done = true;// up4
+
+			else if (ev.mouse.button & 1 && pos_x>20 && pos_x<125 && pos_y> 85 && pos_y<130)
+				done = true;// down4
+
+
 			else if (ev.mouse.button & 2)
 				done = true;
 		}
