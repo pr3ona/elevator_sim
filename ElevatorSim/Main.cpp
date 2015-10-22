@@ -107,10 +107,10 @@ int main(void)
 		al_draw_bitmap(Close, 750, 205, 0);
 
 		al_draw_bitmap(Alarm, 680, 270, 0);
-		al_draw_line(0, 150, 600, 150, al_map_rgb(255, 0, 0), 7);
-		al_draw_line(0, 300, 600, 300, al_map_rgb(255, 0, 0), 7);
-		al_draw_line(0, 450, 600, 450, al_map_rgb(255, 0, 0), 7);
-		al_draw_line(0, 600, 600, 600, al_map_rgb(255, 0, 0), 7);
+		al_draw_line(0, 150, 600, 150, al_map_rgb(255, 0, 0), 2);
+		al_draw_line(0, 300, 600, 300, al_map_rgb(255, 0, 0), 2);
+		al_draw_line(0, 450, 600, 450, al_map_rgb(255, 0, 0), 2);
+		al_draw_line(0, 600, 600, 600, al_map_rgb(255, 0, 0), 2);
 
 		al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 		al_rest(10.0);
