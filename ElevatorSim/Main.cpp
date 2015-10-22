@@ -1,4 +1,7 @@
-#include <allegro5\allegro.h>
+#include <stdio.h>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include <allegro5\allegro_native_dialog.h>
 #include <allegro5\allegro_image.h>
 #include <allegro5\allegro_primitives.h>
@@ -35,10 +38,9 @@ int main(void)
 	ALLEGRO_BITMAP *Close = NULL;
 	ALLEGRO_BITMAP *Alarm = NULL;
 
+	ALLEGRO_SAMPLE *sample = NULL;
 
-
-
-
+	
 	if (!al_init())										//initialize Allegro
 		return -1;
 
@@ -57,6 +59,10 @@ int main(void)
 	al_install_mouse();
 	al_install_keyboard();
 	al_init_image_addon();
+	al_install_audio();
+	al_init_acodec_addon();
+	al_reserve_samples(1);
+
 
 	But1 = al_load_bitmap("ElevatorButton1.png");
 	But2 = al_load_bitmap("ElevatorButton2.png");
@@ -78,6 +84,7 @@ int main(void)
 	Close = al_load_bitmap("ElevatorButtonClose.png");
 	Alarm = al_load_bitmap("ElevatorButtonA.png");
 
+	sample = al_load_sample("Music.wav");
 
 	event_queue = al_create_event_queue();
 
@@ -105,6 +112,8 @@ int main(void)
 		al_draw_line(0, 450, 600, 450, al_map_rgb(255, 0, 0), 7);
 		al_draw_line(0, 600, 600, 600, al_map_rgb(255, 0, 0), 7);
 
+		al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+		al_rest(10.0);
 
 		/*al_draw_bitmap(But1, 10, 10, 0);
 		al_draw_bitmap(But1, 10, 10, 0);
@@ -153,6 +162,8 @@ int main(void)
 	al_destroy_bitmap(Open);
 	al_destroy_bitmap(Close);
 	al_destroy_bitmap(Alarm);
+
+	al_destroy_sample(sample);
 
 	al_destroy_event_queue(event_queue);
 	al_destroy_display(display);						//destroy our display object
