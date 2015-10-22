@@ -37,6 +37,10 @@ int main(void)
 	ALLEGRO_BITMAP *Open = NULL;
 	ALLEGRO_BITMAP *Close = NULL;
 	ALLEGRO_BITMAP *Alarm = NULL;
+	ALLEGRO_BITMAP *Panel1 = NULL;
+	ALLEGRO_BITMAP *Panel2 = NULL;
+	ALLEGRO_BITMAP *panel3 = NULL;
+	ALLEGRO_BITMAP *Panel4 = NULL;
 
 	ALLEGRO_SAMPLE *sample = NULL;
 
@@ -83,6 +87,10 @@ int main(void)
 	Open = al_load_bitmap("ElevatorButtonOpen.png");
 	Close = al_load_bitmap("ElevatorButtonClose.png");
 	Alarm = al_load_bitmap("ElevatorButtonA.png");
+	Panel1 = al_load_bitmap("MetalPlate2.png");
+	Panel2= al_load_bitmap("MetalPlate2.png");
+	panel3= al_load_bitmap("MetalPlate2.png");
+	Panel4= al_load_bitmap("MetalPlate2.png");
 
 	sample = al_load_sample("Music.wav");
 
@@ -113,14 +121,18 @@ int main(void)
 		al_draw_line(0, 600, 600, 600, al_map_rgb(255, 0, 0), 2);
 
 		al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
-		al_rest(10.0);
+		//al_rest(10.0);
 
-		/*al_draw_bitmap(But1, 10, 10, 0);
-		al_draw_bitmap(But1, 10, 10, 0);
-		al_draw_bitmap(But1, 10, 10, 0);
-		al_draw_bitmap(But1, 10, 10, 0);
-		al_draw_bitmap(But1, 10, 10, 0);
-		al_draw_bitmap(But1, 10, 10, 0);*/
+		al_draw_bitmap(Panel1, 10, 460, 0);
+		al_draw_bitmap(ButUp1, 10, 450, 0);
+		al_draw_bitmap(ButDown1, 10, 510, 0);
+
+		//al_draw_bitmap(ButUp2, 10, 500, 0);
+		//al_draw_bitmap(ButUp3, 10, 10, 0);
+		//al_draw_bitmap(ButUp4, 10, 10,0); 
+		/*al_draw_bitmap(ButDown2, 10, 10,0);
+		al_draw_bitmap(ButDown3, 10, 10, 0);
+		al_draw_bitmap(ButDown4, 10, 10, 0);*/
 
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(event_queue, &ev);
