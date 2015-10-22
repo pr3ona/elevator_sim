@@ -18,6 +18,11 @@ int main(void)
 	int pos_x = width / 2;
 	int pos_y = height / 2;
 
+	int liftH = 0;
+	int liftW = 0; 
+	bool floor2 = false;
+
+
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	ALLEGRO_BITMAP *But1 = NULL;
@@ -42,7 +47,12 @@ int main(void)
 	ALLEGRO_BITMAP *panel3 = NULL;
 	ALLEGRO_BITMAP *Panel4 = NULL;
 
+	ALLEGRO_BITMAP *LiftOpen = NULL;
+	ALLEGRO_BITMAP *Liftclose = NULL;
+
 	ALLEGRO_SAMPLE *sample = NULL;
+
+
 
 	
 	if (!al_init())										//initialize Allegro
@@ -67,6 +77,8 @@ int main(void)
 	al_init_acodec_addon();
 	al_reserve_samples(1);
 
+	LiftOpen = al_load_bitmap("LiftOpen.png");
+	Liftclose = al_load_bitmap("LiftClose.png");
 
 	But1 = al_load_bitmap("ElevatorButton1.png");
 	But2 = al_load_bitmap("ElevatorButton2.png");
@@ -94,6 +106,9 @@ int main(void)
 
 	sample = al_load_sample("Music.wav");
 
+	liftH = al_get_bitmap_height(Liftclose);
+	liftW = al_get_bitmap_width(Liftclose);
+
 	event_queue = al_create_event_queue();
 
 	al_register_event_source(event_queue, al_get_mouse_event_source());
@@ -102,6 +117,7 @@ int main(void)
 	//al_hide_mouse_cursor(display);
 	while (!done)
 	{
+		al_draw_bitmap(Liftclose, 400-liftW/2, 700-liftH-100, 0);
 		al_draw_bitmap(Plate, 600, 0,0);
 
 		al_draw_bitmap(But1,610,75,0);
@@ -148,11 +164,11 @@ int main(void)
 		}
 		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
-			if (ev.mouse.button & 1 && pos_x>630 && pos_x<720 && pos_y >90 && pos_y < 140)
+			if (ev.mouse.button & 1 && pos_x > 630 && pos_x<720 && pos_y >90 && pos_y < 140)
 				done = true;// but1
 
 			else if (ev.mouse.button & 1 && pos_x>770 && pos_x<860 && pos_y>90 && pos_y<140)
-				done = true;// but2
+				floor2 = true;
 
 			else if (ev.mouse.button & 1 && pos_x>630 && pos_x<720 && pos_y >160 && pos_y < 210)
 				done = true;// but3
@@ -203,6 +219,12 @@ int main(void)
 			pos_y = ev.mouse.y;
 		}
 
+	/*		while (floor2 && liftH != 115)
+			{
+				liftH + 10;
+				al_draw_bitmap(Liftclose, 400 - liftW / 2, 700 - liftH - 100, 0);
+			}// but2
+		
 		/*if (draw && pos_x<200)
 			al_draw_filled_rectangle(pos_x, pos_y, pos_x + 30, pos_y + 30, al_map_rgb(255, 0, 255));*/
 		al_flip_display();
