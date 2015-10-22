@@ -84,7 +84,7 @@ int main(void)
 	al_register_event_source(event_queue, al_get_mouse_event_source());
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 
-	al_hide_mouse_cursor(display);
+	//al_hide_mouse_cursor(display);
 	while (!done)
 	{
 		al_draw_bitmap(Plate, 600, 0,0);
@@ -116,8 +116,8 @@ int main(void)
 		}
 		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
-			if (ev.mouse.button & 1)
-				draw = !draw;
+			if (ev.mouse.button & 1 && pos_x>630 && pos_x<685 && pos_y >90 && pos_y < 140)
+				done = true;
 			else if (ev.mouse.button & 2)
 				done = true;
 		}
