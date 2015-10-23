@@ -173,8 +173,13 @@ int main(void)
 		}
 		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
+					
 			if (ev.mouse.button & 1 && pos_x > 630 && pos_x<720 && pos_y >90 && pos_y < 140)
-				done = true;// but1
+				for (int i = 0; i > 100; i++) // elevator test
+				{
+					al_destroy_bitmap(Elevator);
+					al_draw_bitmap(Elevator, (440 - liftW / 2), (700 - liftH - 100) + 1, 0);
+				} // but1
 
 			else if (ev.mouse.button & 1 && pos_x>770 && pos_x<860 && pos_y>90 && pos_y<140)
 				floor2 = true; //but2
