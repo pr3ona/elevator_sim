@@ -22,8 +22,7 @@ int main(void)
 	int liftW = 0; 
 	bool floor2 = false;
 
-
-	ALLEGRO_DISPLAY *display = NULL;
+		ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	ALLEGRO_BITMAP *But1 = NULL;
 	ALLEGRO_BITMAP *But2 = NULL;
@@ -50,6 +49,7 @@ int main(void)
 	ALLEGRO_BITMAP *LiftOpen = NULL;
 	ALLEGRO_BITMAP *Liftclose = NULL;
 
+	ALLEGRO_BITMAP *Black = NULL;
 	ALLEGRO_BITMAP *Elevator = NULL;
 
 	ALLEGRO_SAMPLE *sample = NULL;
@@ -79,6 +79,7 @@ int main(void)
 	al_init_acodec_addon();
 	al_reserve_samples(1);
 
+	Black = al_load_bitmap("Black.png");
 	Elevator = al_load_bitmap("Elevator.png");
 	LiftOpen = al_load_bitmap("LiftOpen.png");
 	Liftclose = al_load_bitmap("LiftClose.png");
@@ -111,6 +112,9 @@ int main(void)
 
 	liftH = al_get_bitmap_height(Liftclose);
 	liftW = al_get_bitmap_width(Liftclose);
+	
+	int x = 440 - liftW / 2;
+	int y = 700 - liftH - 100;
 
 	event_queue = al_create_event_queue();
 
@@ -120,8 +124,12 @@ int main(void)
 	//al_hide_mouse_cursor(display);
 	while (!done)
 	{
-		al_draw_line(465, 0, 465, 700, al_map_rgb(121, 121, 121), 5);
-		al_draw_bitmap(Elevator, 440 - liftW / 2, 700 - liftH - 100, 0);
+		al_draw_line(0, 150, 600, 150, al_map_rgb(255, 0, 0), 2);
+		al_draw_line(0, 300, 600, 300, al_map_rgb(255, 0, 0), 2);
+		al_draw_line(0, 450, 600, 450, al_map_rgb(255, 0, 0), 2);
+		al_draw_line(0, 600, 600, 600, al_map_rgb(255, 0, 0), 2);
+		al_draw_line(465, 0, 465, 700, al_map_rgb(121, 121, 121), 200);
+		al_draw_bitmap(Elevator, x, y, 0);
 
 		al_draw_bitmap(Liftclose, 250 - liftW / 2, 700 - liftH - 100, 0);
 		al_draw_bitmap(Liftclose, 250 - liftW / 2, 550 - liftH - 100, 0);
@@ -163,7 +171,7 @@ int main(void)
 		al_draw_bitmap(Panel1, 0,0, 0);
 		al_draw_bitmap(ButUp4, 10, 0,0); 
 		al_draw_bitmap(ButDown4, 10, 60, 0);
-
+							
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(event_queue, &ev);
 
@@ -173,22 +181,36 @@ int main(void)
 		}
 		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
-					
-			if (ev.mouse.button & 1 && pos_x > 630 && pos_x<720 && pos_y >90 && pos_y < 140)
-				for (int i = 0; i > 100; i++) // elevator test
-				{
-					al_destroy_bitmap(Elevator);
-					al_draw_bitmap(Elevator, (440 - liftW / 2), (700 - liftH - 100) + 1, 0);
-				} // but1
 
-			else if (ev.mouse.button & 1 && pos_x>770 && pos_x<860 && pos_y>90 && pos_y<140)
-				floor2 = true; //but2
+			if (ev.mouse.button & 1 && pos_x > 630 && pos_x < 720 && pos_y >90 && pos_y < 140)
+				al_draw_bitmap(LiftOpen, 250 - liftW / 2, 700 - liftH - 100, 0);// but1
+
+			else if (ev.mouse.button & 1 && pos_x>770 && pos_x < 860 && pos_y>90 && pos_y < 140)
+			{
+				al_draw_bitmap(LiftOpen, 250 - liftW / 2, 550 - liftH - 100, 0);
+				al_draw_bitmap(Black, x, y, 0);
+				al_draw_bitmap(Elevator, x, y - 150, 0);
+				al_flip_display();
+				al_rest(5);
+			} //but2
 
 			else if (ev.mouse.button & 1 && pos_x>630 && pos_x<720 && pos_y >160 && pos_y < 210)
-				done = true;// but3
+			{
+				al_draw_bitmap(LiftOpen, 250 - liftW / 2, 400 - liftH - 100, 0);
+				al_draw_bitmap(Black, x, y, 0);
+				al_draw_bitmap(Elevator, x, y - 300, 1);
+				al_flip_display();
+				al_rest(5);
+			} // but3
 
 			else if (ev.mouse.button & 1 && pos_x>770 && pos_x<860 && pos_y>160 && pos_y<210)
-				done = true;// but4
+			{
+				al_draw_bitmap(LiftOpen, 250 - liftW / 2, 250 - liftH - 100, 0);
+				al_draw_bitmap(Black, x, y, 0);
+				al_draw_bitmap(Elevator, x, y - 450, 1);
+				al_flip_display();
+				al_rest(5);
+			} // but4
 
 			else if (ev.mouse.button & 1 && pos_x>630 && pos_x<720 && pos_y >230 && pos_y < 280)
 				done = true;// open
