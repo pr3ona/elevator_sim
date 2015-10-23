@@ -139,21 +139,21 @@ int main(void)
 		al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 		//al_rest(10.0);
 
-		al_draw_bitmap(Panel1, 10, 460, 0);
+		al_draw_bitmap(Panel1,0, 450, 0);
 		al_draw_bitmap(ButUp1, 10, 450, 0);
 		al_draw_bitmap(ButDown1, 10, 510, 0);
 
-		al_draw_bitmap(Panel1, 10, 310, 0);
+		al_draw_bitmap(Panel1, 0, 300, 0);
 		al_draw_bitmap(ButUp2, 10, 300, 0);
 		al_draw_bitmap(ButDown2, 10, 360,0);
 
-		al_draw_bitmap(Panel1, 10, 160, 0);
+		al_draw_bitmap(Panel1, 0, 150, 0);
 		al_draw_bitmap(ButUp3, 10, 140, 0);
 		al_draw_bitmap(ButDown3, 10, 200, 0);
 		
-		al_draw_bitmap(Panel1, 10, 10, 0);
-		al_draw_bitmap(ButUp4, 10, 5,0); 
-		al_draw_bitmap(ButDown4, 10, 65, 0);
+		al_draw_bitmap(Panel1, 0,0, 0);
+		al_draw_bitmap(ButUp4, 10, 0,0); 
+		al_draw_bitmap(ButDown4, 10, 60, 0);
 
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(event_queue, &ev);
@@ -168,7 +168,7 @@ int main(void)
 				done = true;// but1
 
 			else if (ev.mouse.button & 1 && pos_x>770 && pos_x<860 && pos_y>90 && pos_y<140)
-				floor2 = true;
+				floor2 = true; //but2
 
 			else if (ev.mouse.button & 1 && pos_x>630 && pos_x<720 && pos_y >160 && pos_y < 210)
 				done = true;// but3
