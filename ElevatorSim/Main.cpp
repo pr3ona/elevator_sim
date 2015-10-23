@@ -79,7 +79,7 @@ int main(void)
 
 	LiftOpen = al_load_bitmap("LiftOpen.png");
 	Liftclose = al_load_bitmap("LiftClose.png");
-
+	
 	But1 = al_load_bitmap("ElevatorButton1.png");
 	But2 = al_load_bitmap("ElevatorButton2.png");
 	But3 = al_load_bitmap("ElevatorButton3.png");
@@ -117,7 +117,10 @@ int main(void)
 	//al_hide_mouse_cursor(display);
 	while (!done)
 	{
-		al_draw_bitmap(Liftclose, 400-liftW/2, 700-liftH-100, 0);
+		al_draw_bitmap(Liftclose, 250 - liftW / 2, 700 - liftH - 100, 0);
+		al_draw_bitmap(Liftclose, 250 - liftW / 2, 550 - liftH - 100, 0);
+		al_draw_bitmap(Liftclose, 250 - liftW / 2, 400 - liftH - 100, 0);
+		al_draw_bitmap(Liftclose, 250 - liftW / 2, 250 - liftH - 100, 0);
 		al_draw_bitmap(Plate, 600, 0,0);
 
 		al_draw_bitmap(But1,610,75,0);
