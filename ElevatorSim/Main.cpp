@@ -120,7 +120,7 @@ int main(void)
 	//al_hide_mouse_cursor(display);
 	while (!done)
 	{
-		al_draw_line(465, 0, 465, 700, al_map_rgb(255, 0, 0), 5);
+		al_draw_line(465, 0, 465, 700, al_map_rgb(121, 121, 121), 5);
 		al_draw_bitmap(Elevator, 440 - liftW / 2, 700 - liftH - 100, 0);
 
 		al_draw_bitmap(Liftclose, 250 - liftW / 2, 700 - liftH - 100, 0);
