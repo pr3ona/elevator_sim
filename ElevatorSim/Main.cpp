@@ -50,6 +50,8 @@ int main(void)
 	ALLEGRO_BITMAP *LiftOpen = NULL;
 	ALLEGRO_BITMAP *Liftclose = NULL;
 
+	ALLEGRO_BITMAP *Elevator = NULL;
+
 	ALLEGRO_SAMPLE *sample = NULL;
 
 
@@ -77,6 +79,7 @@ int main(void)
 	al_init_acodec_addon();
 	al_reserve_samples(1);
 
+	Elevator = al_load_bitmap("Elevator.png");
 	LiftOpen = al_load_bitmap("LiftOpen.png");
 	Liftclose = al_load_bitmap("LiftClose.png");
 	
@@ -117,6 +120,9 @@ int main(void)
 	//al_hide_mouse_cursor(display);
 	while (!done)
 	{
+		al_draw_line(465, 0, 465, 700, al_map_rgb(255, 0, 0), 5);
+		al_draw_bitmap(Elevator, 440 - liftW / 2, 700 - liftH - 100, 0);
+
 		al_draw_bitmap(Liftclose, 250 - liftW / 2, 700 - liftH - 100, 0);
 		al_draw_bitmap(Liftclose, 250 - liftW / 2, 550 - liftH - 100, 0);
 		al_draw_bitmap(Liftclose, 250 - liftW / 2, 400 - liftH - 100, 0);
