@@ -277,22 +277,44 @@ int main(void)
 			}
 
 			else if (ev.mouse.button & 1 && pos_x>20 && pos_x < 125 && pos_y> 470 && pos_y < 515)
-				done = true;// up1
+			{
+				floor = 525;
+				FireElevator(elevatorm, NumFloors);
+				
+			}
 
 			else if (ev.mouse.button & 1 && pos_x>20 && pos_x < 125 && pos_y> 320 && pos_y < 365)
-				done = true;// up2
+			{
+
+				floor = 375;
+				FireElevator(elevatorm, NumFloors);
+			}
 
 			else if (ev.mouse.button & 1 && pos_x>20 && pos_x < 125 && pos_y> 380 && pos_y < 425)
-				done = true;// down2
+			{
+
+				floor = 375;
+				FireElevator(elevatorm, NumFloors);
+			}
 
 			else if (ev.mouse.button & 1 && pos_x>20 && pos_x < 125 && pos_y> 160 && pos_y < 205)
-				done = true;// up3
+			{
+				floor = 225;
+				FireElevator(elevatorm, NumFloors);
+			}
 
 			else if (ev.mouse.button & 1 && pos_x>20 && pos_x < 125 && pos_y> 220 && pos_y < 265)
-				done = true;// down3
+			{
+				floor = 225;
+				FireElevator(elevatorm, NumFloors);
+			}
 
 			else if (ev.mouse.button & 1 && pos_x>20 && pos_x < 125 && pos_y> 85 && pos_y < 130)
-				done = true;// down4
+			{
+
+				floor = 75;
+				FireElevator(elevatorm, NumFloors);
+			}
 
 
 			else if (ev.mouse.button & 2)
