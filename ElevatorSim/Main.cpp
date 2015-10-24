@@ -14,7 +14,7 @@ const int NumFloors = 4;
 void InitElevator(Elevatorm elevatorm[], int size);
 void DrawElevator(Elevatorm elevatorm[], int size);
 void FireElevator(Elevatorm elevatorm[], int size);
-void UpdateElevator(Elevatorm elevatorm[], int size);
+void UpdateElevator(Elevatorm elevatorm[], int size, int floor);
 
 int main(void)
 {
@@ -23,6 +23,7 @@ int main(void)
 	int width = 900;
 	int height = 700;
 
+	int floor = 0;
 	const int FPS = 60;
 	bool done = false;
 	bool draw = true;
@@ -172,7 +173,7 @@ int main(void)
 
 		al_draw_bitmap(Panel1, 0, 450, 0);
 		al_draw_bitmap(ButUp1, 10, 450, 0);
-		
+
 		al_draw_bitmap(Panel1, 0, 300, 0);
 		al_draw_bitmap(ButUp2, 10, 300, 0);
 		al_draw_bitmap(ButDown2, 10, 360, 0);
@@ -190,7 +191,7 @@ int main(void)
 		{
 			draw = true;
 
-			UpdateElevator(elevatorm, NumFloors);
+			UpdateElevator(elevatorm, NumFloors, floor);
 
 		}
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
@@ -202,31 +203,40 @@ int main(void)
 
 			if (ev.mouse.button & 1 && pos_x > 630 && pos_x < 720 && pos_y >90 && pos_y < 140)
 			{
-				al_draw_bitmap(LiftOpen, 250 - liftW / 2, 700 - liftH - 100, 0);
+				floor = 525;
+				FireElevator(elevatorm, NumFloors);
+				//al_draw_bitmap(LiftOpen, 250 - liftW / 2, 700 - liftH - 100, 0);
 				//al_rest(5);
 			}// but1
 
 			else if (ev.mouse.button & 1 && pos_x>770 && pos_x < 860 && pos_y>90 && pos_y < 140)
 			{
-				al_draw_bitmap(LiftOpen, 250 - liftW / 2, 550 - liftH - 100, 0);
+				floor = 375;
+				FireElevator(elevatorm, NumFloors);
+				/*al_draw_bitmap(LiftOpen, 250 - liftW / 2, 550 - liftH - 100, 0);
 				al_draw_bitmap(Black, x, y, 0);
 				al_draw_bitmap(Elevator, x, y - 150, 0);
 				al_flip_display();
-				al_rest(5);
+				al_rest(5);*/
 			} //but2
 
 			else if (ev.mouse.button & 1 && pos_x>630 && pos_x < 720 && pos_y >160 && pos_y < 210)
 			{
-				al_draw_bitmap(LiftOpen, 250 - liftW / 2, 400 - liftH - 100, 0);
+				floor = 225;
+				FireElevator(elevatorm, NumFloors);
+				
+				/*al_draw_bitmap(LiftOpen, 250 - liftW / 2, 400 - liftH - 100, 0);
 				al_draw_bitmap(Black, x, y, 0);
 				al_draw_bitmap(Elevator, x, y - 300, 1);
 				al_flip_display();
-				//al_rest(5);
+				al_rest(5);*/
 			} // but3
 
 			else if (ev.mouse.button & 1 && pos_x>770 && pos_x < 860 && pos_y>160 && pos_y < 210)
 			{
-				FireElevator(elevatorm, NumFloors,);
+				floor = 75;
+				FireElevator(elevatorm, NumFloors);
+				
 				
 				/*al_draw_bitmap(LiftOpen, 250 - liftW / 2, 250 - liftH - 100, 0);
 				al_draw_bitmap(Black, x, y, 0);
@@ -281,8 +291,9 @@ int main(void)
 
 				/*if (draw && pos_x<200)
 				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 30, pos_y + 30, al_map_rgb(255, 0, 255));*/
-		al_flip_display();
-		al_clear_to_color(al_map_rgb(0, 0, 0));
+		
+		//al_flip_display();
+		//al_clear_to_color(al_map_rgb(0, 0, 0));
 		if (draw && al_is_event_queue_empty(event_queue))
 		{
 			draw = false;
@@ -331,36 +342,38 @@ void InitElevator(Elevatorm elevatorm[], int size)
 
 void DrawElevator(Elevatorm elevatorm[], int size)
 {
-	for (int i = 0; i < size; i++)
-	{
-		if (elevatorm[i].up)
+	
+		if (elevatorm[1].up)
 		{
-			al_draw_filled_circle(elevatorm[i].x, elevatorm[i].y, 5, al_map_rgb(255, 0, 0));
+			al_draw_filled_circle(elevatorm[1].x, elevatorm[1].y, 5, al_map_rgb(255, 0, 0));
 		}
-			}
+			
 }
 void FireElevator(Elevatorm elevatorm[], int size)
 {
-	for (int i = 0; i < size; i++)
-	{
-		if (!elevatorm[i].up)
+	
+		if (!elevatorm[1].up)
 		{
-			elevatorm[i].x = 100;
-			elevatorm[i].y = 100;
-			elevatorm[i].up = true;
-			break;
+			elevatorm[1].x = 458;
+			elevatorm[1].y = 500;
+			elevatorm[1].up = true;
+		
 		}
-	}
+
 }
-void UpdateElevator(Elevatorm elevatorm[], int size)
+void UpdateElevator(Elevatorm elevatorm[], int size,int floor)
 {
-	for (int i = 0; i < size; i++)
-	{
-		if (elevatorm[i].up)
+	
+		if (elevatorm[1].up)
 		{
-			elevatorm[i].x += elevatorm[i].speed;
-			if (elevatorm[i].x > 200)
-				elevatorm[i].up = 200;
+			elevatorm[1].y -= 2;
+			if (elevatorm[1].y < floor)
+				elevatorm[1].y = floor;
+			//floor = 0;
+			//elevatorm[i].y += 2;
+			/*if (elevatorm[i].y < 0)
+				elevatorm[i].y = 0;*/
 		}
-	}
+		
+	
 }
