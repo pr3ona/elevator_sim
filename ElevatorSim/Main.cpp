@@ -70,7 +70,7 @@ int main(void)
 		return -1;
 	}
 
-
+	//Addons
 	al_init_primitives_addon();
 	al_install_mouse();
 	al_install_keyboard();
@@ -79,6 +79,7 @@ int main(void)
 	al_init_acodec_addon();
 	al_reserve_samples(1);
 
+	//Loadihng components 
 	Black = al_load_bitmap("Black.png");
 	Elevator = al_load_bitmap("Elevator.png");
 	LiftOpen = al_load_bitmap("LiftOpen.png");
