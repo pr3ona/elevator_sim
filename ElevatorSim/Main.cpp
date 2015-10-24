@@ -8,19 +8,21 @@
 #include <allegro5\allegro_font.h>
 #include <allegro5\allegro_ttf.h>
 #include "Elevator.h"
+#include <vector>
+using namespace std;
+
 
 const int NumFloors = 4;
-
+void floorupdate(int floor, vector<int> floorQ);
 void InitElevator(Elevatorm elevatorm[], int size);
 void DrawElevator(Elevatorm elevatorm[], int size);
 void FireElevator(Elevatorm elevatorm[], int size);
-void UpdateElevator(Elevatorm elevatorm[], int size, int floor, ALLEGRO_FONT *font);
+void UpdateElevator(Elevatorm elevatorm[], int size, vector<int> floorQ, ALLEGRO_FONT *font);
 //void UpdateFloorNum(Elevatorm elevatorm, int floor);
-
+vector<int> floorQ(1);
 int main(void)
 {
 	Elevatorm elevatorm[5];
-
 	int width = 900;
 	int height = 700;
 
@@ -192,15 +194,17 @@ int main(void)
 
 		al_draw_bitmap(Panel1, 0, 0, 0);
 		al_draw_bitmap(ButDown4, 10, 60, 0);
-
+		
 		//ALLEGRO_EVENT ev;
 		al_wait_for_event(event_queue, &ev);
 		if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
 			draw = true;
 
-			UpdateElevator(elevatorm, NumFloors, floor, font);
+			UpdateElevator(elevatorm, NumFloors, floorQ,font);
+			//floorQ.erase(floorQ.begin());
 			//UpdateFloorNum(elevatorm, floor);
+		//floorupdate(floor, floorQ);
 
 		}
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
@@ -212,7 +216,8 @@ int main(void)
 
 			if (ev.mouse.button & 1 && pos_x > 630 && pos_x < 720 && pos_y >90 && pos_y < 140)
 			{
-				floor = 525;
+				floorQ.push_back(525);
+				//floor = 525;
 				FireElevator(elevatorm, NumFloors);
 				//al_draw_bitmap(LiftOpen, 250 - liftW / 2, 700 - liftH - 100, 0);
 				//al_rest(5);
@@ -220,7 +225,8 @@ int main(void)
 
 			else if (ev.mouse.button & 1 && pos_x>770 && pos_x < 860 && pos_y>90 && pos_y < 140)
 			{
-				floor = 375;
+				floorQ.push_back(375);
+				//floor = 375;
 				FireElevator(elevatorm, NumFloors);
 				/*al_draw_bitmap(LiftOpen, 250 - liftW / 2, 550 - liftH - 100, 0);
 				al_draw_bitmap(Black, x, y, 0);
@@ -231,7 +237,8 @@ int main(void)
 
 			else if (ev.mouse.button & 1 && pos_x>630 && pos_x < 720 && pos_y >160 && pos_y < 210)
 			{
-				floor = 225;
+				floorQ.push_back(225);
+			//	floor = 225;
 				FireElevator(elevatorm, NumFloors);
 				
 				/*al_draw_bitmap(LiftOpen, 250 - liftW / 2, 400 - liftH - 100, 0);
@@ -243,7 +250,8 @@ int main(void)
 
 			else if (ev.mouse.button & 1 && pos_x>770 && pos_x < 860 && pos_y>160 && pos_y < 210)
 			{
-				floor = 75;
+				floorQ.push_back(75);
+			//	floor = 75;
 				FireElevator(elevatorm, NumFloors);	
 				/*al_draw_bitmap(LiftOpen, 250 - liftW / 2, 250 - liftH - 100, 0);
 				al_draw_bitmap(Black, x, y, 0);
@@ -349,7 +357,15 @@ void InitElevator(Elevatorm elevatorm[], int size)
 		elevatorm[i].up = false;
 	}
 }
+/*void floorupdate(int floor, vector<int> floorQ)
+{
+	for (int i = 0; i < floorQ.size(); i++)
+	{
+		floor = floorQ[i];
+		floorQ.erase(floorQ.begin());
 
+	}
+}*/
 void DrawElevator(Elevatorm elevatorm[], int size)
 {
 	
@@ -371,12 +387,15 @@ void FireElevator(Elevatorm elevatorm[], int size)
 		}
 
 }
-void UpdateElevator(Elevatorm elevatorm[], int size, int floor, ALLEGRO_FONT *font)
+void UpdateElevator(Elevatorm elevatorm[], int size,vector<int> floorQ, ALLEGRO_FONT *font)
 {
 	
 		if (elevatorm[1].up)
 		{
-			if (elevatorm[1].y<floor)
+			for (int i = 0; i < floorQ.size(); i++)
+			{
+
+			if (elevatorm[1].y<floorQ[i])
 			{ 
 				elevatorm[1].y += 2;
 				if (elevatorm[1].y >= 0 && elevatorm[1].y < 150)
@@ -395,16 +414,18 @@ void UpdateElevator(Elevatorm elevatorm[], int size, int floor, ALLEGRO_FONT *fo
 				{
 					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "1");
 				}
-				if (elevatorm[1].y > floor)
-					elevatorm[1].y = floor;
+				if (elevatorm[1].y > floorQ[i])
+					elevatorm[1].y = floorQ[i];
+			
 			}
 
-			else if (elevatorm[1].y > floor)
+			else if (elevatorm[1].y > floorQ[i])
 			{
 				elevatorm[1].y -= 2;
 				if (elevatorm[1].y >= 0 && elevatorm[1].y < 150)
 				{
 					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "4");
+					
 				}
 				if (elevatorm[1].y >= 150 && elevatorm[1].y < 300)
 				{
@@ -418,9 +439,10 @@ void UpdateElevator(Elevatorm elevatorm[], int size, int floor, ALLEGRO_FONT *fo
 				{
 					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "1");
 				}
-				if (elevatorm[1].y < floor)
-					elevatorm[1].y = floor;
-
+				if (elevatorm[1].y < floorQ[i])
+					elevatorm[1].y = floorQ[i];
+				
+			}
 			}
         }
 }
