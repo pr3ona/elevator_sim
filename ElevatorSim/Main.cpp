@@ -14,8 +14,8 @@ const int NumFloors = 4;
 void InitElevator(Elevatorm elevatorm[], int size);
 void DrawElevator(Elevatorm elevatorm[], int size);
 void FireElevator(Elevatorm elevatorm[], int size);
-void UpdateElevator(Elevatorm elevatorm[], int size, int floor);
-void UpdateFloorNum(Elevatorm elevatorm, int floor);
+void UpdateElevator(Elevatorm elevatorm[], int size, int floor, ALLEGRO_FONT *font);
+//void UpdateFloorNum(Elevatorm elevatorm, int floor);
 
 int main(void)
 {
@@ -94,7 +94,7 @@ int main(void)
 	al_init_ttf_addon();// initialize the ttf addon
 	al_reserve_samples(1);
 
-	ALLEGRO_FONT *font = al_load_ttf_font("pirulen.ttf", 72, 0);
+	ALLEGRO_FONT *font = al_load_ttf_font("Digital.ttf", 72, 0);
 
 	Black = al_load_bitmap("Black.png");
 	Elevator = al_load_bitmap("Elevator.png");
@@ -199,7 +199,7 @@ int main(void)
 		{
 			draw = true;
 
-			UpdateElevator(elevatorm, NumFloors, floor);
+			UpdateElevator(elevatorm, NumFloors, floor, font);
 			//UpdateFloorNum(elevatorm, floor);
 
 		}
@@ -303,17 +303,7 @@ int main(void)
 			pos_x = ev.mouse.x;
 			pos_y = ev.mouse.y;
 		}
-		/*		while (floor2 && liftH != 115)
-				{
-				liftH + 10;
-				al_draw_bitmap(Liftclose, 400 - liftW / 2, 700 - liftH - 100, 0);
-				}// but2
-
-				/*if (draw && pos_x<200)
-				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 30, pos_y + 30, al_map_rgb(255, 0, 255));*/
 		
-		//al_flip_display();
-		//al_clear_to_color(al_map_rgb(0, 0, 0));
 		if (draw && al_is_event_queue_empty(event_queue))
 		{
 			draw = false;
@@ -323,7 +313,7 @@ int main(void)
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 		}
 }
-	al_destroy_bitmap(But1);
+	al_destroy_bitmap(But1); //destroy our display object
 	al_destroy_bitmap(But2);
 	al_destroy_bitmap(But3);
 	al_destroy_bitmap(But4);
@@ -344,10 +334,10 @@ int main(void)
 	if (ev.type == ALLEGRO_EVENT_TIMER)
 	{
 		draw = true;
-		al_destroy_display(display);						//destroy our display object
+		al_destroy_display(display);	//destroy our display object
 
 		return 0;
-	}					//destroy our display object
+	}					
 }
 
 void InitElevator(Elevatorm elevatorm[], int size)
@@ -381,7 +371,7 @@ void FireElevator(Elevatorm elevatorm[], int size)
 		}
 
 }
-void UpdateElevator(Elevatorm elevatorm[], int size,int floor)
+void UpdateElevator(Elevatorm elevatorm[], int size, int floor, ALLEGRO_FONT *font)
 {
 	
 		if (elevatorm[1].up)
@@ -389,6 +379,22 @@ void UpdateElevator(Elevatorm elevatorm[], int size,int floor)
 			if (elevatorm[1].y<floor)
 			{ 
 				elevatorm[1].y += 2;
+				if (elevatorm[1].y >= 0 && elevatorm[1].y < 150)
+				{
+					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "4");
+				}
+				if (elevatorm[1].y >= 150 && elevatorm[1].y < 300)
+				{
+					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "3");
+				}
+				if (elevatorm[1].y >= 300 && elevatorm[1].y < 450)
+				{
+					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "2");
+				}
+				if (elevatorm[1].y >= 450 && elevatorm[1].y < 600)
+				{
+					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "1");
+				}
 				if (elevatorm[1].y > floor)
 					elevatorm[1].y = floor;
 			}
@@ -396,14 +402,27 @@ void UpdateElevator(Elevatorm elevatorm[], int size,int floor)
 			else if (elevatorm[1].y > floor)
 			{
 				elevatorm[1].y -= 2;
+				if (elevatorm[1].y >= 0 && elevatorm[1].y < 150)
+				{
+					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "4");
+				}
+				if (elevatorm[1].y >= 150 && elevatorm[1].y < 300)
+				{
+					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "3");
+				}
+				if (elevatorm[1].y >= 300 && elevatorm[1].y < 450)
+				{
+					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "2");
+				}
+				if (elevatorm[1].y >= 450 && elevatorm[1].y < 600)
+				{
+					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "1");
+				}
 				if (elevatorm[1].y < floor)
 					elevatorm[1].y = floor;
+
 			}
-			//floor = 0;
-			//elevatorm[i].y += 2;
-			/*if (elevatorm[i].y < 0)
-				elevatorm[i].y = 0;*/
-	       }
+        }
 }
 
 /*void UpdateFloorNum(Elevatorm elevatorm[], int floor)
