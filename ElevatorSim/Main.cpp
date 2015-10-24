@@ -143,7 +143,7 @@ int main(void)
 		al_draw_bitmap(But3, 610, 140, 0);
 		al_draw_bitmap(But4, 750, 140, 0);
 
-
+		//hellowpo
 		al_draw_bitmap(Open, 610, 205, 0);
 		al_draw_bitmap(Close, 750, 205, 0);
 
