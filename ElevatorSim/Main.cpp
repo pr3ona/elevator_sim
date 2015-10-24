@@ -355,7 +355,7 @@ void DrawElevator(Elevatorm elevatorm[], int size)
 	
 		if (elevatorm[1].up)
 		{
-			al_draw_filled_circle(elevatorm[1].x, elevatorm[1].y, 60, al_map_rgb(0, 0, 0));
+			al_draw_filled_circle(elevatorm[1].x, elevatorm[1].y, 65, al_map_rgb(0, 0, 0));
 		}
 			
 }
