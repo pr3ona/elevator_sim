@@ -8,7 +8,7 @@
 #include <allegro5\allegro_font.h>
 #include <allegro5\allegro_ttf.h>
 #include "Elevator.h"
-
+//hello world
 const int NumFloors = 4;
 
 void InitElevator(Elevatorm elevatorm[], int size);
