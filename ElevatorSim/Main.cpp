@@ -12,12 +12,12 @@
 using namespace std;
 
 const int NumFloors = 4;
-//void UpdateVector(int floor, vector<int> floorQ);
 void InitElevator(Elevatorm elevatorm[], int size);
 void DrawElevator(Elevatorm elevatorm[], int size);
 void FireElevator(Elevatorm elevatorm[], int size);
-void UpdateElevator(Elevatorm elevatorm[], int size, int floor, int clickCheck, int moveDone, vector<int> floorQ, ALLEGRO_FONT *font, bool buffer);
-//void UpdateFloorNum(Elevatorm elevatorm, int floor);
+void UpdateElevator(Elevatorm elevatorm[], int size, int floor, int clickCheck, vector<int> floorQ, ALLEGRO_FONT *font, bool moveDone);
+void DrawNumber(Elevatorm elevatorm[], int size, ALLEGRO_FONT *font);
+//void UpdateFloorNum(Elevatorm elevatorm, int floor, vector<int> floorQ, bool moveDone);
 
 vector<int> floorQ(1);
 
@@ -30,9 +30,9 @@ int main(void)
 	int clickCheck = 0;
 	int alarmS = 0;
 	int floor = 0;
-	int moveDone = 0;
+	bool moveDone = false;
 	const int FPS = 60;
-	bool buffer = false;
+	
 	bool done = false;
 	bool draw = true;
 	int pos_x = width / 2;
@@ -204,8 +204,13 @@ int main(void)
 		if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
 			draw = true;
-			//UpdateVector(floor,floorQ);
-			UpdateElevator(elevatorm, NumFloors, floor, clickCheck, moveDone, floorQ, font, buffer);
+			//if (moveDone!=clickCheck)
+			//{
+				floor = floorQ[(clickCheck)];
+			//}
+			//UpdateFloorNum(elevatorm, floor,  floorQ, moveDone);
+		   UpdateElevator(elevatorm, NumFloors, floor, clickCheck, floorQ, font, moveDone);
+			DrawNumber(elevatorm, NumFloors, font);
 		
 		}
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
@@ -217,6 +222,7 @@ int main(void)
 
 			if (ev.mouse.button & 1 && pos_x > 630 && pos_x < 720 && pos_y >90 && pos_y < 140)
 			{
+				moveDone = false; 
 				clickCheck += 1;
 				floorQ.push_back(525);
 				FireElevator(elevatorm, NumFloors);
@@ -226,6 +232,7 @@ int main(void)
 
 			else if (ev.mouse.button & 1 && pos_x>770 && pos_x < 860 && pos_y>90 && pos_y < 140)
 			{
+				moveDone = false;
 				clickCheck += 1;
 				floorQ.push_back(375);
 				FireElevator(elevatorm, NumFloors);
@@ -238,6 +245,7 @@ int main(void)
 
 			else if (ev.mouse.button & 1 && pos_x>630 && pos_x < 720 && pos_y >160 && pos_y < 210)
 			{
+				moveDone = false;
 				clickCheck += 1;
 				floorQ.push_back(225);
 				FireElevator(elevatorm, NumFloors);
@@ -251,6 +259,7 @@ int main(void)
 
 			else if (ev.mouse.button & 1 && pos_x>770 && pos_x < 860 && pos_y>160 && pos_y < 210)
 			{
+				moveDone = false;
 				clickCheck += 1;
 				floorQ.push_back(75);
 				FireElevator(elevatorm, NumFloors);	
@@ -263,7 +272,7 @@ int main(void)
 
 			else if (ev.mouse.button & 1 && pos_x>630 && pos_x < 720 && pos_y >230 && pos_y < 280)
 			{
-				al_draw_bitmap(LiftOpen, 250 - liftW / 2, floorQ[clickCheck] - 75, 0);
+				al_draw_bitmap(LiftOpen, 250 - liftW / 2, floor - 75, 0);
 				al_flip_display();
 				al_rest(2);
 			}// open
@@ -287,6 +296,7 @@ int main(void)
 
 			else if (ev.mouse.button & 1 && pos_x>20 && pos_x < 125 && pos_y> 470 && pos_y < 515)
 			{
+				clickCheck += 1;
 				floorQ.push_back(525);
 				FireElevator(elevatorm, NumFloors);
 				
@@ -294,33 +304,35 @@ int main(void)
 
 			else if (ev.mouse.button & 1 && pos_x>20 && pos_x < 125 && pos_y> 320 && pos_y < 365)
 			{
-
+				clickCheck += 1;
 				floorQ.push_back(375);
 				FireElevator(elevatorm, NumFloors);
 			}
 
 			else if (ev.mouse.button & 1 && pos_x>20 && pos_x < 125 && pos_y> 380 && pos_y < 425)
 			{
-
+				clickCheck += 1;
 				floorQ.push_back(375);
 				FireElevator(elevatorm, NumFloors);
 			}
 
 			else if (ev.mouse.button & 1 && pos_x>20 && pos_x < 125 && pos_y> 160 && pos_y < 205)
 			{
+				clickCheck += 1;
 				floorQ.push_back(255);
 				FireElevator(elevatorm, NumFloors);
 			}
 
 			else if (ev.mouse.button & 1 && pos_x>20 && pos_x < 125 && pos_y> 220 && pos_y < 265)
 			{
+				clickCheck += 1;
 				floorQ.push_back(225);
 				FireElevator(elevatorm, NumFloors);
 			}
 
 			else if (ev.mouse.button & 1 && pos_x>20 && pos_x < 125 && pos_y> 85 && pos_y < 130)
 			{
-
+				clickCheck += 1;
 				floorQ.push_back(75);
 				FireElevator(elevatorm, NumFloors);
 			}
@@ -376,7 +388,7 @@ void InitElevator(Elevatorm elevatorm[], int size)
 	for (int i = 0; i < size; i++)
 	{
 		elevatorm[i].ID = ELEVATORM;
-		elevatorm[i].speed = 2;
+		elevatorm[i].speed = 1;
 		elevatorm[i].up = false;
 	}
 }
@@ -390,6 +402,31 @@ void DrawElevator(Elevatorm elevatorm[], int size)
 		}
 			
 }
+void DrawNumber(Elevatorm elevatorm[], int size, ALLEGRO_FONT *font)
+{
+
+	if (elevatorm[1].up)
+	{
+		if (elevatorm[1].y >= 0 && elevatorm[1].y < 150)
+		{
+			al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "4");
+		}
+		if (elevatorm[1].y >= 150 && elevatorm[1].y < 300)
+		{
+			al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "3");
+		}
+		if (elevatorm[1].y >= 300 && elevatorm[1].y < 450)
+		{
+			al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "2");
+		}
+		if (elevatorm[1].y >= 450 && elevatorm[1].y < 600)
+		{
+			al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "1");
+		}
+	}
+
+}
+
 void FireElevator(Elevatorm elevatorm[], int size)
 {
 	
@@ -402,62 +439,41 @@ void FireElevator(Elevatorm elevatorm[], int size)
 		}
 
 }
-void UpdateElevator(Elevatorm elevatorm[], int size, int floor, int clickCheck, int moveDone, vector<int> floorQ, ALLEGRO_FONT *font,bool buffer)
+
+/*void UpdateFloorNum(Elevatorm elevatorm[], int floor, vector<int> floorQ, bool moveDone)
 {
 	if (elevatorm[1].up)
 	{
-		floor = floorQ[(clickCheck)];
+		if(moveDone)
+		{
+			floor = floorQ.back();
+			floorQ.pop_back();
+		}
+	}
+}*/
 
-			if (elevatorm[1].y < floor)
+void UpdateElevator(Elevatorm elevatorm[], int size, int floor, int clickCheck, vector<int> floorQ, ALLEGRO_FONT *font,bool moveDone)
+{
+	if (elevatorm[1].up)
+	{
+		if (elevatorm[1].y < floor)
 			{
 				elevatorm[1].y += elevatorm[1].speed;
-				if (elevatorm[1].y >= 0 && elevatorm[1].y < 150)
-				{
-					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "4");
-				}
-				if (elevatorm[1].y >= 150 && elevatorm[1].y < 300)
-				{
-					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "3");
-				}
-				if (elevatorm[1].y >= 300 && elevatorm[1].y < 450)
-				{
-					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "2");
-				}
-				if (elevatorm[1].y >= 450 && elevatorm[1].y < 600)
-				{
-					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "1");
-				}
 				if (elevatorm[1].y > floor)
 				{
 					elevatorm[1].y = floor;
-					moveDone += 1;
-					//al_rest(2);
+					moveDone = true;
+				//al_rest(2);
 				}
 			}
 
 			else if (elevatorm[1].y > floor)
 			{
 				elevatorm[1].y -= elevatorm[1].speed;
-				if (elevatorm[1].y >= 0 && elevatorm[1].y < 150)
-				{
-					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "4");
-				}
-				if (elevatorm[1].y >= 150 && elevatorm[1].y < 300)
-				{
-					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "3");
-				}
-				if (elevatorm[1].y >= 300 && elevatorm[1].y < 450)
-				{
-					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "2");
-				}
-				if (elevatorm[1].y >= 450 && elevatorm[1].y < 600)
-				{
-					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "1");
-				}
 				if (elevatorm[1].y < floor)
 				{
 					elevatorm[1].y = floor;
-					moveDone += 1;
+					moveDone = true;
 					//al_rest(2);
 				}
 
