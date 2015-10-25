@@ -8,6 +8,8 @@
 #include <allegro5\allegro_font.h>
 #include <allegro5\allegro_ttf.h>
 #include "Elevator.h"
+#include <vector>
+using namespace std;
 
 const int NumFloors = 4;
 
@@ -226,7 +228,7 @@ int main(void)
 				al_draw_bitmap(Black, x, y, 0);
 				al_draw_bitmap(Elevator, x, y - 150, 0);
 				al_flip_display();
-				al_rest(5);*/
+				al_rest(5); */
 			} //but2
 
 			else if (ev.mouse.button & 1 && pos_x>630 && pos_x < 720 && pos_y >160 && pos_y < 210)
