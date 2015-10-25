@@ -8,14 +8,18 @@
 #include <allegro5\allegro_font.h>
 #include <allegro5\allegro_ttf.h>
 #include "Elevator.h"
-//hello world
-const int NumFloors = 4;
+#include <vector>
+using namespace std;
 
+const int NumFloors = 4;
 void InitElevator(Elevatorm elevatorm[], int size);
 void DrawElevator(Elevatorm elevatorm[], int size);
 void FireElevator(Elevatorm elevatorm[], int size);
-void UpdateElevator(Elevatorm elevatorm[], int size, int floor, ALLEGRO_FONT *font);
-//void UpdateFloorNum(Elevatorm elevatorm, int floor);
+void UpdateElevator(Elevatorm elevatorm[], int size, int floor, int clickCheck, vector<int> floorQ, ALLEGRO_FONT *font, bool moveDone);
+void DrawNumber(Elevatorm elevatorm[], int size, ALLEGRO_FONT *font);
+//void UpdateFloorNum(Elevatorm elevatorm, int floor, vector<int> floorQ, bool moveDone);
+
+vector<int> floorQ(1);
 
 int main(void)
 {
@@ -23,10 +27,12 @@ int main(void)
 
 	int width = 900;
 	int height = 700;
-
+	int clickCheck = 0;
 	int alarmS = 0;
 	int floor = 0;
+	bool moveDone = false;
 	const int FPS = 60;
+	
 	bool done = false;
 	bool draw = true;
 	int pos_x = width / 2;
@@ -96,7 +102,6 @@ int main(void)
 
 	ALLEGRO_FONT *font = al_load_ttf_font("Digital.ttf", 72, 0);
 
-	Black = al_load_bitmap("Black.png");
 	Elevator = al_load_bitmap("Elevator.png");
 	LiftOpen = al_load_bitmap("LiftOpen.png");
 	Liftclose = al_load_bitmap("LiftClose.png");
@@ -151,7 +156,7 @@ int main(void)
 		al_draw_line(0, 300, 600, 300, al_map_rgb(255, 0, 0), 2);
 		al_draw_line(0, 450, 600, 450, al_map_rgb(255, 0, 0), 2);
 		al_draw_line(0, 600, 600, 600, al_map_rgb(255, 0, 0), 2);
-		al_draw_line(465, 0, 465, 700, al_map_rgb(121, 121, 121), 200);
+		al_draw_line(465, 0, 465, 700, al_map_rgb(96, 96,96), 200);
 		//al_draw_bitmap(Elevator, x, y, 0);
 
 		al_draw_bitmap(Liftclose, 250 - liftW / 2, 700 - liftH - 100, 0);
@@ -176,6 +181,13 @@ int main(void)
 		al_draw_line(0, 450, 600, 450, al_map_rgb(255, 0, 0), 2);
 		al_draw_line(0, 600, 600, 600, al_map_rgb(255, 0, 0), 2);
 
+
+
+
+
+
+
+
 		al_play_sample(sample, 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 		//al_rest(10.0);
 
@@ -198,10 +210,15 @@ int main(void)
 		if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
 			draw = true;
-
-			UpdateElevator(elevatorm, NumFloors, floor, font);
-			//UpdateFloorNum(elevatorm, floor);
-
+			//if (moveDone!=clickCheck)
+			//{
+				//floor = floorQ[(clickCheck)];
+				//printf("   %d   ", floor);
+			//}
+			//UpdateFloorNum(elevatorm, floor,  floorQ, moveDone);
+		   UpdateElevator(elevatorm, NumFloors, floor, clickCheck, floorQ, font, moveDone);
+		   DrawNumber(elevatorm, NumFloors, font);
+		
 		}
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 		{
@@ -212,7 +229,9 @@ int main(void)
 
 			if (ev.mouse.button & 1 && pos_x > 630 && pos_x < 720 && pos_y >90 && pos_y < 140)
 			{
-				floor = 525;
+				moveDone = false; 
+				clickCheck += 1;
+				floorQ.push_back(525);
 				FireElevator(elevatorm, NumFloors);
 				//al_draw_bitmap(LiftOpen, 250 - liftW / 2, 700 - liftH - 100, 0);
 				//al_rest(5);
@@ -220,18 +239,22 @@ int main(void)
 
 			else if (ev.mouse.button & 1 && pos_x>770 && pos_x < 860 && pos_y>90 && pos_y < 140)
 			{
-				floor = 375;
+				moveDone = false;
+				clickCheck += 1;
+				floorQ.push_back(375);
 				FireElevator(elevatorm, NumFloors);
 				/*al_draw_bitmap(LiftOpen, 250 - liftW / 2, 550 - liftH - 100, 0);
 				al_draw_bitmap(Black, x, y, 0);
 				al_draw_bitmap(Elevator, x, y - 150, 0);
 				al_flip_display();
-				al_rest(5);*/
+				al_rest(5); */
 			} //but2
 
 			else if (ev.mouse.button & 1 && pos_x>630 && pos_x < 720 && pos_y >160 && pos_y < 210)
 			{
-				floor = 225;
+				moveDone = false;
+				clickCheck += 1;
+				floorQ.push_back(225);
 				FireElevator(elevatorm, NumFloors);
 				
 				/*al_draw_bitmap(LiftOpen, 250 - liftW / 2, 400 - liftH - 100, 0);
@@ -243,7 +266,9 @@ int main(void)
 
 			else if (ev.mouse.button & 1 && pos_x>770 && pos_x < 860 && pos_y>160 && pos_y < 210)
 			{
-				floor = 75;
+				moveDone = false;
+				clickCheck += 1;
+				floorQ.push_back(75);
 				FireElevator(elevatorm, NumFloors);	
 				/*al_draw_bitmap(LiftOpen, 250 - liftW / 2, 250 - liftH - 100, 0);
 				al_draw_bitmap(Black, x, y, 0);
@@ -254,7 +279,7 @@ int main(void)
 
 			else if (ev.mouse.button & 1 && pos_x>630 && pos_x < 720 && pos_y >230 && pos_y < 280)
 			{
-				al_draw_bitmap(LiftOpen, 250 - liftW / 2, floor-75, 0);
+				al_draw_bitmap(LiftOpen, 250 - liftW / 2, floor - 75, 0);
 				al_flip_display();
 				al_rest(2);
 			}// open
@@ -278,41 +303,44 @@ int main(void)
 
 			else if (ev.mouse.button & 1 && pos_x>20 && pos_x < 125 && pos_y> 470 && pos_y < 515)
 			{
-				floor = 525;
+				clickCheck += 1;
+				floorQ.push_back(525);
 				FireElevator(elevatorm, NumFloors);
 				
 			}
 
 			else if (ev.mouse.button & 1 && pos_x>20 && pos_x < 125 && pos_y> 320 && pos_y < 365)
 			{
-
-				floor = 375;
+				clickCheck += 1;
+				floorQ.push_back(375);
 				FireElevator(elevatorm, NumFloors);
 			}
 
 			else if (ev.mouse.button & 1 && pos_x>20 && pos_x < 125 && pos_y> 380 && pos_y < 425)
 			{
-
-				floor = 375;
+				clickCheck += 1;
+				floorQ.push_back(375);
 				FireElevator(elevatorm, NumFloors);
 			}
 
 			else if (ev.mouse.button & 1 && pos_x>20 && pos_x < 125 && pos_y> 160 && pos_y < 205)
 			{
-				floor = 225;
+				clickCheck += 1;
+				floorQ.push_back(255);
 				FireElevator(elevatorm, NumFloors);
 			}
 
 			else if (ev.mouse.button & 1 && pos_x>20 && pos_x < 125 && pos_y> 220 && pos_y < 265)
 			{
-				floor = 225;
+				clickCheck += 1;
+				floorQ.push_back(225);
 				FireElevator(elevatorm, NumFloors);
 			}
 
 			else if (ev.mouse.button & 1 && pos_x>20 && pos_x < 125 && pos_y> 85 && pos_y < 130)
 			{
-
-				floor = 75;
+				clickCheck += 1;
+				floorQ.push_back(75);
 				FireElevator(elevatorm, NumFloors);
 			}
 
@@ -367,7 +395,7 @@ void InitElevator(Elevatorm elevatorm[], int size)
 	for (int i = 0; i < size; i++)
 	{
 		elevatorm[i].ID = ELEVATORM;
-		elevatorm[i].speed = 10;
+		elevatorm[i].speed = 1;
 		elevatorm[i].up = false;
 	}
 }
@@ -381,6 +409,31 @@ void DrawElevator(Elevatorm elevatorm[], int size)
 		}
 			
 }
+void DrawNumber(Elevatorm elevatorm[], int size, ALLEGRO_FONT *font)
+{
+
+	if (elevatorm[1].up)
+	{
+		if (elevatorm[1].y >= 0 && elevatorm[1].y < 150)
+		{
+			al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "4");
+		}
+		if (elevatorm[1].y >= 150 && elevatorm[1].y < 300)
+		{
+			al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "3");
+		}
+		if (elevatorm[1].y >= 300 && elevatorm[1].y < 450)
+		{
+			al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "2");
+		}
+		if (elevatorm[1].y >= 450 && elevatorm[1].y < 600)
+		{
+			al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "1");
+		}
+	}
+
+}
+
 void FireElevator(Elevatorm elevatorm[], int size)
 {
 	
@@ -393,65 +446,47 @@ void FireElevator(Elevatorm elevatorm[], int size)
 		}
 
 }
-void UpdateElevator(Elevatorm elevatorm[], int size, int floor, ALLEGRO_FONT *font)
+
+/*void UpdateFloorNum(Elevatorm elevatorm[], int floor, vector<int> floorQ, bool moveDone)
 {
-	
-		if (elevatorm[1].up)
+	if (elevatorm[1].up)
+	{
+		if(moveDone)
 		{
-			if (elevatorm[1].y<floor)
-			{ 
-				elevatorm[1].y += 2;
-				if (elevatorm[1].y >= 0 && elevatorm[1].y < 150)
-				{
-					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "4");
-				}
-				if (elevatorm[1].y >= 150 && elevatorm[1].y < 300)
-				{
-					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "3");
-				}
-				if (elevatorm[1].y >= 300 && elevatorm[1].y < 450)
-				{
-					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "2");
-				}
-				if (elevatorm[1].y >= 450 && elevatorm[1].y < 600)
-				{
-					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "1");
-				}
+			floor = floorQ.back();
+			floorQ.pop_back();
+		}
+	}
+}*/
+
+void UpdateElevator(Elevatorm elevatorm[], int size, int floor, int clickCheck, vector<int> floorQ, ALLEGRO_FONT *font,bool moveDone)
+{
+	floor = floorQ[(clickCheck)];
+	printf("   %d   ", floor);
+	if (elevatorm[1].up)
+	{
+		if (elevatorm[1].y < floor)
+			{
+				elevatorm[1].y += elevatorm[1].speed;
 				if (elevatorm[1].y > floor)
+				{
 					elevatorm[1].y = floor;
+					moveDone = true;
+				//al_rest(2);
+				}
 			}
 
 			else if (elevatorm[1].y > floor)
 			{
-				elevatorm[1].y -= 2;
-				if (elevatorm[1].y >= 0 && elevatorm[1].y < 150)
-				{
-					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "4");
-				}
-				if (elevatorm[1].y >= 150 && elevatorm[1].y < 300)
-				{
-					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "3");
-				}
-				if (elevatorm[1].y >= 300 && elevatorm[1].y < 450)
-				{
-					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "2");
-				}
-				if (elevatorm[1].y >= 450 && elevatorm[1].y < 600)
-				{
-					al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "1");
-				}
+				elevatorm[1].y -= elevatorm[1].speed;
 				if (elevatorm[1].y < floor)
+				{
 					elevatorm[1].y = floor;
+					moveDone = true;
+					//al_rest(2);
+				}
 
 			}
-        }
+		}
+
 }
-
-/*void UpdateFloorNum(Elevatorm elevatorm[], int floor)
-{
-	if (floor>=0 && floor<150)
-	al_clear_to_color(al_map_rgb(50, 10, 70));
-	al_draw_text(font, al_map_rgb(255, 255, 255), 640 / 2, (480 / 4), ALLEGRO_ALIGN_CENTRE, "Your Text Here!");
-
-	al_flip_display();
-}*/
