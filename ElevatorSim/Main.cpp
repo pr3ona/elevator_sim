@@ -102,7 +102,6 @@ int main(void)
 
 	ALLEGRO_FONT *font = al_load_ttf_font("Digital.ttf", 72, 0);
 
-	Black = al_load_bitmap("Black.png");
 	Elevator = al_load_bitmap("Elevator.png");
 	LiftOpen = al_load_bitmap("LiftOpen.png");
 	Liftclose = al_load_bitmap("LiftClose.png");
@@ -182,6 +181,13 @@ int main(void)
 		al_draw_line(0, 450, 600, 450, al_map_rgb(255, 0, 0), 2);
 		al_draw_line(0, 600, 600, 600, al_map_rgb(255, 0, 0), 2);
 
+
+
+
+
+
+
+
 		al_play_sample(sample, 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 		//al_rest(10.0);
 
@@ -206,11 +212,12 @@ int main(void)
 			draw = true;
 			//if (moveDone!=clickCheck)
 			//{
-				floor = floorQ[(clickCheck)];
+				//floor = floorQ[(clickCheck)];
+				//printf("   %d   ", floor);
 			//}
 			//UpdateFloorNum(elevatorm, floor,  floorQ, moveDone);
 		   UpdateElevator(elevatorm, NumFloors, floor, clickCheck, floorQ, font, moveDone);
-			DrawNumber(elevatorm, NumFloors, font);
+		   DrawNumber(elevatorm, NumFloors, font);
 		
 		}
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
@@ -454,6 +461,8 @@ void FireElevator(Elevatorm elevatorm[], int size)
 
 void UpdateElevator(Elevatorm elevatorm[], int size, int floor, int clickCheck, vector<int> floorQ, ALLEGRO_FONT *font,bool moveDone)
 {
+	floor = floorQ[(clickCheck)];
+	printf("   %d   ", floor);
 	if (elevatorm[1].up)
 	{
 		if (elevatorm[1].y < floor)
