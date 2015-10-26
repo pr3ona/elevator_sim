@@ -13,8 +13,6 @@ using namespace std;
 
 const int NumFloors = 4;
 
-//void UpdateFloorNum(Elevatorm elevatorm, int floor, vector<int> floorQ, bool moveDone);
-
 vector<int> floorQ(1);
 
 int main(void)
@@ -65,7 +63,10 @@ int main(void)
 
 	ALLEGRO_SAMPLE *sample = NULL;
 	ALLEGRO_SAMPLE_INSTANCE *alarm = NULL;
-
+	ALLEGRO_SAMPLE_INSTANCE *one = NULL;
+	ALLEGRO_SAMPLE_INSTANCE *two = NULL;
+	ALLEGRO_SAMPLE_INSTANCE *three = NULL;
+	ALLEGRO_SAMPLE_INSTANCE *four = NULL;
 	ALLEGRO_TIMER *timer = NULL;
 	ALLEGRO_EVENT ev;
 
@@ -121,9 +122,18 @@ int main(void)
 	Panel4 = al_load_bitmap("MetalPlate2.png");
 
 	sample = al_load_sample("Music.wav");
+	one = al_create_sample_instance(al_load_sample("1.wav"));
+	two= al_create_sample_instance(al_load_sample("2.wav"));
+	three = al_create_sample_instance(al_load_sample("3.wav"));
+	four= al_create_sample_instance(al_load_sample("4.wav"));
+
 	alarm = al_create_sample_instance(al_load_sample("Alarm.wav"));
 
 	al_attach_sample_instance_to_mixer(alarm, al_get_default_mixer());
+	al_attach_sample_instance_to_mixer(one, al_get_default_mixer());
+	al_attach_sample_instance_to_mixer(two, al_get_default_mixer());
+	al_attach_sample_instance_to_mixer(three, al_get_default_mixer());
+	al_attach_sample_instance_to_mixer(four, al_get_default_mixer());
 
 	liftH = al_get_bitmap_height(Liftclose);
 	liftW = al_get_bitmap_width(Liftclose);
@@ -203,13 +213,13 @@ int main(void)
 		{
 			draw = true;
 			//if (moveDone!=clickCheck)
-			//{
+			
 				floor = floorQ[(clickCheck)];
-				//printf("   %d   ", floor);
-			//}
+			
+		
 			//UpdateFloorNum(elevatorm, floor,  floorQ, moveDone);
 				elevatorm[1].UpdateElevator(elevatorm, NumFloors, floor, clickCheck, floorQ, font, moveDone);
-				elevatorm[1].DrawNumber(elevatorm, NumFloors, font);
+				elevatorm[1].DrawNumber(elevatorm, NumFloors, font, one,two,three,four);
 		
 		}
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
@@ -225,8 +235,7 @@ int main(void)
 				clickCheck += 1;
 				floorQ.push_back(525);
 				elevatorm[1].FireElevator(elevatorm, NumFloors);
-				//al_draw_bitmap(LiftOpen, 250 - liftW / 2, 700 - liftH - 100, 0);
-				//al_rest(5);
+				
 			}// but1
 
 			else if (ev.mouse.button & 1 && pos_x>770 && pos_x < 860 && pos_y>90 && pos_y < 140)
@@ -235,11 +244,7 @@ int main(void)
 				clickCheck += 1;
 				floorQ.push_back(375);
 				elevatorm[1].FireElevator(elevatorm, NumFloors);
-				/*al_draw_bitmap(LiftOpen, 250 - liftW / 2, 550 - liftH - 100, 0);
-				al_draw_bitmap(Black, x, y, 0);
-				al_draw_bitmap(Elevator, x, y - 150, 0);
-				al_flip_display();
-				al_rest(5); */
+				
 			} //but2
 
 			else if (ev.mouse.button & 1 && pos_x>630 && pos_x < 720 && pos_y >160 && pos_y < 210)
@@ -249,11 +254,7 @@ int main(void)
 				floorQ.push_back(225);
 				elevatorm[1].FireElevator(elevatorm, NumFloors);
 				
-				/*al_draw_bitmap(LiftOpen, 250 - liftW / 2, 400 - liftH - 100, 0);
-				al_draw_bitmap(Black, x, y, 0);
-				al_draw_bitmap(Elevator, x, y - 300, 1);
-				al_flip_display();
-				al_rest(5);*/
+				
 			} // but3
 
 			else if (ev.mouse.button & 1 && pos_x>770 && pos_x < 860 && pos_y>160 && pos_y < 210)
@@ -262,11 +263,7 @@ int main(void)
 				clickCheck += 1;
 				floorQ.push_back(75);
 				elevatorm[1].FireElevator(elevatorm, NumFloors);
-				/*al_draw_bitmap(LiftOpen, 250 - liftW / 2, 250 - liftH - 100, 0);
-				al_draw_bitmap(Black, x, y, 0);
-				al_draw_bitmap(Elevator, x, y - 450, 1);
-				al_flip_display();
-				al_rest(5);*/
+			
 			} // but4
 
 			else if (ev.mouse.button & 1 && pos_x>630 && pos_x < 720 && pos_y >230 && pos_y < 280)
@@ -334,6 +331,7 @@ int main(void)
 				clickCheck += 1;
 				floorQ.push_back(75);
 				elevatorm[1].FireElevator(elevatorm, NumFloors);
+				
 			}
 
 
@@ -401,26 +399,31 @@ void Elevatorm::DrawElevator(Elevatorm elevatorm[], int size)
 		}
 			
 }
-void Elevatorm::DrawNumber(Elevatorm elevatorm[], int size, ALLEGRO_FONT *font)
+void Elevatorm::DrawNumber(Elevatorm elevatorm[], int size, ALLEGRO_FONT *font, ALLEGRO_SAMPLE_INSTANCE *one, ALLEGRO_SAMPLE_INSTANCE *two, ALLEGRO_SAMPLE_INSTANCE *three, ALLEGRO_SAMPLE_INSTANCE *four)
 {
 
 	if (elevatorm[1].up)
 	{
 		if (elevatorm[1].y >= 0 && elevatorm[1].y < 150)
 		{
+			al_play_sample_instance(four);
 			al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "4");
+			
 		}
 		if (elevatorm[1].y >= 150 && elevatorm[1].y < 300)
 		{
 			al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "3");
+			al_play_sample_instance(three);
 		}
 		if (elevatorm[1].y >= 300 && elevatorm[1].y < 450)
 		{
 			al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "2");
+			al_play_sample_instance(two);
 		}
 		if (elevatorm[1].y >= 450 && elevatorm[1].y < 600)
 		{
 			al_draw_text(font, al_map_rgb(255, 0, 0), 750, (350), ALLEGRO_ALIGN_CENTRE, "1");
+			al_play_sample_instance(one);
 		}
 	}
 

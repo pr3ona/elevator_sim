@@ -27,5 +27,5 @@ public:
 	void DrawElevator(Elevatorm elevatorm[], int size);
 	void FireElevator(Elevatorm elevatorm[], int size);
 	void UpdateElevator(Elevatorm elevatorm[], int size, int floor, int clickCheck, vector<int> floorQ, ALLEGRO_FONT *font, bool moveDone);
-	void DrawNumber(Elevatorm elevatorm[], int size, ALLEGRO_FONT *font);
+	void DrawNumber(Elevatorm elevatorm[], int size, ALLEGRO_FONT *font, ALLEGRO_SAMPLE_INSTANCE *one, ALLEGRO_SAMPLE_INSTANCE *two, ALLEGRO_SAMPLE_INSTANCE *three, ALLEGRO_SAMPLE_INSTANCE *four);
 };
